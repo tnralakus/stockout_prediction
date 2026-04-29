@@ -71,4 +71,4 @@ The Logistic Regression model significantly outperformed the baseline, achieving
   
 ### Outline of project
 
-[Stockout Prediction By Taner Alakus](https://github.com/tnralakus/stockout_prediction)
+[Stockout Prediction By Taner Alakus]([https://github.com/tnralakus/stockout_prediction](https://github.com/tnralakus/stockout_prediction/blob/main/stockout_prediction.ipynb))
