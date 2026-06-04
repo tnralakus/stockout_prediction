@@ -61,6 +61,17 @@ The project successfully moved beyond baseline performance.
 -   **Key Insight:** While tree-based ensemble methods (like Random Forest) provided superior overall accuracy, the **KNN** model demonstrated the best balance of targeted class identification and computational speed for the specific objective of detecting "Stockout" events.
     
 
+
+| Model | Train Time (s) | Train Accuracy | Test Accuracy | F1-Score (Class 2) |
+| :--- | :--- | :--- | :--- | :--- |
+| **KNN** | 0.13 | 1.00 | 0.69 | **0.36** |
+| **SVC** | 7.15 | 0.71 | 0.55 | 0.27 |
+| **Logistic Regression** | 5.99 | 0.67 | 0.57 | 0.27 |
+| **Random Forest** | 7.29 | 0.76 | 0.61 | 0.27 |
+| **Decision Tree (DT)** | 5.69 | 0.80 | 0.66 | 0.24 |
+| **Hist Gradient Boosting** | 4.23 | 0.81 | 0.69 | 0.17 |
+
+
 ### Next Steps
 
 -   **Threshold Tuning:** Implement probability threshold moving to further improve Class 2 Precision without compromising Recall.
