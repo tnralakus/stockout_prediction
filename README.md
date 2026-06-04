@@ -1,74 +1,81 @@
 
-## Navigating Supply Chain Volatility: A Predictive 3-Class Model for Stockout
+# Navigating Supply Chain Volatility: A Predictive 3-Class Model for Stockout
 
-  
+### Executive  Summary & Strategic Value
+This project transforms high-dimensional supply chain data into a predictive classification system designed to mitigate the financial risks of inventory imbalance. By categorizing orders into **No Stockout**, **Potential Stockout**, and **Stockout** (Class 2), the model acts as an early-warning radar for supply chain managers.
 
-### Executive Summary
+Using the DataCo Smart Supply Chain dataset, the project employs advanced data cleaning, feature engineering, and cost-sensitive modeling to minimize lost revenue and optimize capital allocation.
 
-This project addresses the critical challenge of inventory imbalance within global supply chains. By transforming high-dimensional supply chain data into a predictive classification system, this model categorizes inventory into three actionable risk states: ***No Stockout***, ***Potential Stockout*** (Late Delivery Risk), and ***Stockout***.
-
-Utilizing the DataCo Smart Supply Chain dataset, the project employs advanced data cleaning, feature engineering, and regularization techniques to minimize lost revenue and trapped capital, aiming for the "Goldilocks" balance of inventory management.
- 
+-   **Technical Performance:** Through rigorous data cleaning, `SMOTETomek` resampling to handle class imbalance, and hyperparameter optimization, the project identifies key predictive indicators. The **K-Nearest Neighbors (KNN)** model was selected as the optimal tool for Class 2 detection, achieving the highest F1-Score (0.36) for the critical minority category.
+    
+-   **Business Impact:** The system prioritizes **Recall (Sensitivity)** for stockout events, ensuring that critical failures are rarely missed—a strategic choice to prioritize operational continuity over the lower costs of investigating "false alarm" flags.
+    
+-   **Next Steps:** Future iterations will focus on **precision optimization** via threshold tuning, the integration of **Explainable AI (SHAP)** to reveal hidden drivers of stockouts, and the development of a **Human-in-the-Loop triage dashboard** to streamline procurement responses.
 
 ### Rationale
 
-Supply chain disruptions and stockouts lead to significant financial losses and decreased customer satisfaction. Conversely, overstocking traps capital and increases holding costs. 
-
-A prescriptive tool that can anticipate these states allows businesses to move from reactive troubleshooting to proactive strategy, mathematically pruning noise while focusing on key predictive indicators.
+Supply chain disruptions lead to significant financial losses and decreased customer satisfaction. Conversely, overstocking traps capital and increases holding costs. A prescriptive tool that anticipates these states allows businesses to move from reactive troubleshooting to proactive strategy, effectively balancing inventory health against operational risk.
 
 ### Research Question
 
-How can we transform high-dimensional supply chain data into a predictive classification system that categorizes inventory into actionable risk states while mathematically pruning redundant noise through regularization?
- 
+How can we transform high-dimensional supply chain data into a predictive classification system that categorizes inventory into actionable risk states, effectively managing class imbalance to prioritize critical stockout events?
 
 ### Data Sources
 
-The project utilizes the ***DataCo Smart Supply Chain for Big Data Analysis dataset (available on [Kaggle](https://www.kaggle.com/datasets/shashwatwork/dataco-smart-supply-chain-for-big-data-analysis?select=DataCoSupplyChainDataset.csv%C2%A0))*** . It consists of ***180,519*** entries with ***53*** initial attributes covering areas such as provisioning, production, sales, and commercial distribution.  
-  
+-   **Dataset**: DataCo Smart Supply Chain for Big Data Analysis (Available on [Kaggle](https://www.kaggle.com/datasets/shashwatwork/dataco-smart-supply-chain-for-big-data-analysis)).
+    
+-   **Scope**: 180,519 entries with 53 initial attributes covering production, sales, and commercial distribution.
+    
 
 ### Methodology
 
- - **Exploratory Data Analysis (EDA):** Conducted a comprehensive analysis of dataset distributions, variable relationships, and data quality to inform subsequent processing.
+-   **Exploratory Data Analysis (EDA):** Analyzed variable distributions and correlations to identify key predictors of delivery delays and cancellations.
+    
+-   **Target Engineering:** Categorized inventory into three classes:
+    
+    -   **Class 0:** No Stockout.
+        
+    -   **Class 1:** Potential Stockout (Late delivery risk).
+        
+    -   **Class 2:** Stockout (Cancelled orders or shipping canceled).
+        
+-   **Preprocessing:** Handled missing values, removed redundant features, and applied dimensionality reduction to reduce noise.
+    
+-   **Modeling Pipeline:**
+    
+    -   Evaluated multiple classifiers: Logistic Regression (Baseline), KNN, SVM, Decision Trees, Hist Gradient Boosting, and Random Forest.
+        
+    -   **Class Imbalance Strategy:** Implemented resampling techniques (`SMOTETomek`) to ensure robust learning for the minority "Stockout" class.
+        
+    -   **Optimization:** Executed comprehensive hyperparameter tuning for all models.
+        
 
- - **Target Engineering:** Defined a new 3-class target variable (Stockout_Class):
-
-					Class 0: No Stockout.
-
-					Class 1: Potential Stockout (Orders with late delivery risk).
-
-					Class 2: Stockout (Cancelled orders or shipping canceled).
-
- - **Data Cleaning & Feature Engineering:**  Performed cleaning to handle missing values and remove irrelevant or redundant columns.  Applied feature engineering and dimensionality reduction techniques to streamline the dataset and address multicollinearity.
-
- - **Modeling Approach:**  
-	 - Established a classification pipeline incorporating necessary preprocessing, such as scaling and encoding.  
-	 - Evaluated a suite of classification algorithms including:
-		- Baseline: Logistic Regression
-		- Advanced Models: K-Nearest Neighbors (KNN), SVM, Decision Trees, XGBoost, and Random Forest.
-	- Implemented Cost-Sensitive Learning by applying a penalty matrix to weight misclassifications appropriately, prioritizing critical error mitigation.
-	- Executed hyperparameter optimization to identify the most effective settings for every model.
-
- - **Handling Imbalance:**  Utilized resampling techniques like SMOTETomek to address class imbalance and ensure robust learning across all classes.
-
- - **Evaluation Metrics:** Assessed model performance using metrics beyond standard accuracy to ensure comprehensive evaluation based on the specific cost-sensitive requirements of the task.
-
-  
 ### Results
 
-The Logistic Regression model significantly outperformed the baseline, achieving an overall test accuracy of 80.32% compared to the 54.83% baseline.
- - **Performance Metrics:** The model shows robust performance for majority classes (Class 0 and 1) with high precision and recall.
- - **Minority Class Analysis (Class 2 - 'Stockout'):** While the implementation of SMOTETomek successfully addressed class imbalance and yielded a high recall of 0.86 for the minority 'Stockout' class, precision remains problematic at 0.16.
- - **Key Insight:** The current configuration is optimized for sensitivity, effectively capturing stockout events, but suffers from high false-positive rates due to the model's over-sensitivity resulting from the resampling technique.
- - **Reliability:** The model is highly accurate at identifying orders that are running smoothly or are only at minor risk.
- - **Primary Challenge:** The model is very good at flagging potential "Stockout" issues (the most critical category), ensuring that real problems are rarely missed. However, it is currently "overly cautious," meaning it often flags healthy orders as potential problems.
- - **Business Implication:** We are effectively catching real supply chain disruptions, but we are also generating a high volume of false alarms. Future adjustments should focus on balancing this "better safe than sorry" approach against the cost of investigating these false alerts.
- 
- *To be completed*
+The project successfully moved beyond baseline performance.
 
-### Next steps
+-   **Performance Metrics:** While accuracy is generally high, our primary metric—the **F1-Score for Class 2 (Stockout)**—was the target for optimization. In supply chain, the cost of missing a stockout (a false negative) far outweighs the cost of investigating a false alarm (a false positive).
+    
+-   **Best Performing Model:** **K-Nearest Neighbors (KNN)** emerged as the most effective model for Class 2 identification, achieving an F1-Score of **0.36**.
+    
+-   **Key Insight:** While tree-based ensemble methods (like Random Forest) provided superior overall accuracy, the **KNN** model demonstrated the best balance of targeted class identification and computational speed for the specific objective of detecting "Stockout" events.
+    
 
-*To be completed*
-  
-### Outline of project
+### Next Steps
 
-[Stockout Prediction By Taner Alakus]([https://github.com/tnralakus/stockout_prediction](https://github.com/tnralakus/stockout_prediction/blob/main/stockout_prediction.ipynb))
+-   **Threshold Tuning:** Implement probability threshold moving to further improve Class 2 Precision without compromising Recall.
+    
+-   **SHAP Analysis:** Integrate explainable AI techniques (SHAP) to interpret which specific supply chain features are driving the model's predictions.
+    
+-   **Operational Integration:** Prototype an automated dashboard that flags "Class 2" items for immediate review by procurement managers.
+    
+
+### How to use this project
+
+1.  Clone this repository.
+    
+2.  Ensure you have the `DataCoSupplyChainDataset.csv` in the appropriate directory.
+    
+3.  Open `stockout_prediction.ipynb` in Jupyter Lab or Google Colab.
+    
+4.  Run the cells sequentially to reproduce the preprocessing, modeling, and evaluation pipeline.
